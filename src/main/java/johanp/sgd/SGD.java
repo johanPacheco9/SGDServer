@@ -17,6 +17,7 @@ public class SGD {
             Registry registryFileService = LocateRegistry.createRegistry(PUERTO);
             
             IFileService fileService = new FIleService();
+            //para nuevo
             
             registryFileService.rebind(SERVICIO_NOMBRE, fileService);
             
