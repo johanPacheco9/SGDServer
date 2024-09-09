@@ -16,10 +16,11 @@ public class File implements Serializable {
     private String name;
     private long size;
     private String path;
-    private String content;
+    //private String content;
+    private byte[] content; 
 
     // Constructor
-    public File(String name, long size, String path, String content) {
+    public File(String name, long size, String path, byte[] content) {
         this.name = name;
         this.size = size;
         this.path = path;
@@ -51,11 +52,11 @@ public class File implements Serializable {
         this.path = path;
     }
 
-    public String getContent() {
+    public byte[] getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(byte[] content) {
         this.content = content;
     }
 

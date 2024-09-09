@@ -11,10 +11,10 @@ public class SGD {
 
     private static final int PUERTO = 8083; // Puerto para UserService
     private static final String SERVICIO_NOMBRE = "fileService";
-    private static final String FILE_DIRECTORY = "/home/cliente/share/";
+    private static final String FILE_DIRECTORY = "/home/cliente/share";
 
     public static void main(String[] args) {
-        java.io.File fileToSave = new java.io.File(FILE_DIRECTORY + "testfile.txt");
+        java.io.File fileToSave = new java.io.File(FILE_DIRECTORY + "holassss ");
         try (FileOutputStream fileOutput = new FileOutputStream(fileToSave)) {
             String content = "This is a test.";
             fileOutput.write(content.getBytes());
@@ -25,7 +25,7 @@ public class SGD {
 
         try {
             // Configura la IP del servidor RMI
-            System.setProperty("java.rmi.server.hostname", "192.168.1.15"); // Cambia la IP por la correcta
+            System.setProperty("java.rmi.server.hostname", "10.153.70.123"); // Cambia la IP por la correcta
             
             Registry registryFileService = LocateRegistry.createRegistry(PUERTO);
             

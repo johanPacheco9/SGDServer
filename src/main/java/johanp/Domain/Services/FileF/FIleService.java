@@ -14,12 +14,14 @@ import johanp.Domain.Models.File;
  *
  * @author johan
  */
-public class FIleService extends UnicastRemoteObject implements IFileService{
+public class FIleService extends UnicastRemoteObject implements IFileService {
 
     private static final String FILE_DIRECTORY = "/home/johan/share/";
+
     public FIleService() throws RemoteException {
         super();
     }
+
     @Override
     public byte[] getFile(String fileName) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -29,8 +31,8 @@ public class FIleService extends UnicastRemoteObject implements IFileService{
     public String addFile(File file) throws RemoteException {
         java.io.File fileToSave = new java.io.File(FILE_DIRECTORY + file.getName());
         try (FileOutputStream fileOutput = new FileOutputStream(fileToSave)) {
-            // Convert content from String to bytes
-            byte[] fileData = file.getContent().getBytes();
+            // Escribir los datos binarios del archivo en lugar de convertir desde String
+            byte[] fileData = file.getContent();
             fileOutput.write(fileData);
             return "File added successfully: " + file.getName();
         } catch (IOException e) {
@@ -48,5 +50,5 @@ public class FIleService extends UnicastRemoteObject implements IFileService{
     public boolean searchFile(String fileName) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
 }
