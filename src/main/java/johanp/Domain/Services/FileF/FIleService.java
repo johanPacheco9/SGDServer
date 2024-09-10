@@ -38,12 +38,20 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
     }
 
     @Override
-    public String addFile(File file) throws RemoteException {
-        java.io.File fileToSave = new java.io.File(FILE_DIRECTORY + file.getName());
+    public String addFile(File file, String userName) throws RemoteException {
+        // Agregar separador de directorio entre FILE_DIRECTORY y el userName
+        String userDirectoryPath = FILE_DIRECTORY + userName + "/";
+        java.io.File userDirectory = new java.io.File(userDirectoryPath);
+        if (!userDirectory.exists()) {
+            if (!userDirectory.mkdirs()) {
+                return "Error: Could not create directory for user " + userName;
+            }
+        }
+        java.io.File fileToSave = new java.io.File(userDirectoryPath + file.getName());
+
         try (FileOutputStream fileOutput = new FileOutputStream(fileToSave)) {
-            // Escribir los datos binarios del archivo en lugar de convertir desde String
-            byte[] fileData = file.getContent();
-            fileOutput.write(fileData);
+            byte[] fileData = file.getContent(); // Obtener los bytes del archivo
+            fileOutput.write(fileData); // Escribir los bytes al archivo
             return "File added successfully: " + file.getName();
         } catch (IOException e) {
             e.printStackTrace();

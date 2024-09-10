@@ -13,7 +13,7 @@ import johanp.Domain.Models.File;
  */
 public interface IFileService extends Remote{
     byte[] getFile(String fileName) throws RemoteException;
-    String addFile(File file) throws RemoteException;
+    String addFile(File file, String userName) throws RemoteException;
     String deleteFile(String fileName) throws RemoteException;
     boolean searchFile(String fileName) throws RemoteException;
 }
