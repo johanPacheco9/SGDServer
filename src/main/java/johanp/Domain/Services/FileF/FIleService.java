@@ -4,10 +4,12 @@
  */
 package johanp.Domain.Services.FileF;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+
 import johanp.Domain.Models.File;
 
 /**
@@ -16,7 +18,7 @@ import johanp.Domain.Models.File;
  */
 public class FIleService extends UnicastRemoteObject implements IFileService {
 
-    private static final String FILE_DIRECTORY = "/home/johan/share/";
+    private static final String FILE_DIRECTORY = "/home/cliente/share/";
 
     public FIleService() throws RemoteException {
         super();
@@ -24,7 +26,15 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
 
     @Override
     public byte[] getFile(String fileName) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        java.io.File fileToRead = new java.io.File(FILE_DIRECTORY + fileName);
+        try (FileInputStream fileInput = new FileInputStream(fileToRead)) {
+            byte[] fileData = new byte[(int) fileToRead.length()];
+            fileInput.read(fileData);
+            return fileData;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RemoteException("Error reading file: " + e.getMessage());
+        }
     }
 
     @Override
@@ -43,7 +53,12 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
 
     @Override
     public String deleteFile(String fileName) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        java.io.File fileToDelete = new java.io.File(FILE_DIRECTORY + fileName);
+        if (fileToDelete.delete()) {
+            return "File deleted successfully: " + fileName;
+        } else {
+            return "Error deleting file: " + fileName;
+        }
     }
 
     @Override

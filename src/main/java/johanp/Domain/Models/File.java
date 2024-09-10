@@ -26,6 +26,10 @@ public class File implements Serializable {
         this.path = path;
         this.content = content;
     }
+    public File(String name)
+    {
+        this.name = name;
+    }
 
     // Getters and Setters
     public String getName() {
