@@ -16,13 +16,14 @@ public class User implements Serializable {
 
     private int id;
     private String name;
-    private String pass;
+    private String password;
+    private int role;
 
     // Constructor
-    public User( int id,String name) {
+    public User( int id,String name, int role) {
         this.name = name;
-   
         this.id = id ;
+        this.role = role;
     }
 
     // Getters and Setters
@@ -33,9 +34,27 @@ public class User implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    public int getRole()
+    {
+        return role;
+    }
+
+    public void setRole(int role)
+    {
+        this.role = role;
+    }
+    
 
     public long getId() {
         return id;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     @Override
@@ -43,6 +62,7 @@ public class User implements Serializable {
         return "File{"
                 + "id =" + id
                 + "name='" + name + '\''
+                + "role" + role
                 + '}';
     }
 }

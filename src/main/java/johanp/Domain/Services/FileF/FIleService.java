@@ -68,10 +68,40 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
             return "Error deleting file: " + fileName;
         }
     }
-
+ 
     @Override
     public boolean searchFile(String fileName) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void asignarPermisos(File file, String userName, int permiso) {
+        // Aquí implementas la lógica para guardar los permisos en la base de datos.
+        // Permiso 1 = Lector, Permiso 2 = Escritor.
+        System.out.println("Permisos asignados para el archivo: " + file.getName() + " al usuario: " + userName);
+    }
+
+    
+    public String modifyFile(File file, String userName) throws RemoteException {
+        String filePath = FILE_DIRECTORY + userName + "/" + file.getName();
+        java.io.File fileToModify = new java.io.File(filePath);
+
+        if (fileToModify.exists()) {
+            try (FileOutputStream fileOutput = new FileOutputStream(fileToModify)) {
+                fileOutput.write(file.getContent());
+
+                // Notificar a los usuarios que un archivo ha sido modificado
+                String mensaje = "El archivo " + file.getName() + " ha sido modificado por " + userName;
+                //SGD.enviarBroadcast(mensaje);  // Broadcast a todos los usuarios
+
+                return "Archivo modificado correctamente: " + file.getName();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "Error al modificar el archivo: " + e.getMessage();
+            }
+        } else {
+            return "El archivo no existe: " + file.getName();
+        }
     }
 
 }

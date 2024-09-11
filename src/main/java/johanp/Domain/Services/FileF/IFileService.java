@@ -5,6 +5,7 @@
 package johanp.Domain.Services.FileF;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 import johanp.Domain.Models.File;
 
 /**
@@ -16,6 +17,10 @@ public interface IFileService extends Remote{
     String addFile(File file, String userName) throws RemoteException;
     String deleteFile(String fileName) throws RemoteException;
     boolean searchFile(String fileName) throws RemoteException;
+
+    //
+    void asignarPermisos(File file, String userName, int permiso) throws RemoteException;
+    String modifyFile(File file, String userName) throws RemoteException;  // Método para modificar archi
 }
 
 
