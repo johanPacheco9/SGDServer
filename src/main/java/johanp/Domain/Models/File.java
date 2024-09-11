@@ -18,13 +18,15 @@ public class File implements Serializable {
     private String path;
     //private String content;
     private byte[] content; 
+    private int author_id;
 
     // Constructor
-    public File(String name, long size, String path, byte[] content) {
+    public File(String name, long size, String path, byte[] content, int author_id) {
         this.name = name;
         this.size = size;
         this.path = path;
-        this.content = content;
+        this.content = null;
+        this.author_id = author_id;
     }
     public File(String name)
     {
@@ -63,6 +65,15 @@ public class File implements Serializable {
     public void setContent(byte[] content) {
         this.content = content;
     }
+
+    public int getAuthorId() {
+        return author_id;
+    }
+
+    public void setAuthorId(int author_id) {
+        this.author_id = author_id;
+    }
+
 
     @Override
     public String toString() {

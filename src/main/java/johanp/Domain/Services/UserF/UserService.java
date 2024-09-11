@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import johanp.Domain.Models.DatabaseConnection;
 import johanp.Domain.Models.User;
@@ -48,9 +50,10 @@ public class UserService extends UnicastRemoteObject implements IUserService {
         }
         return null; // Retornar null si el login falla
     }
+    
     @Override
     public int addUser(User user) throws RemoteException {
-        // Definir la consulta SQL para insertar un nuevo usuario
+        
         String sql = "INSERT INTO Users (name, password, role) VALUES (?, ?, ?)";
         
         try (Connection conn = DatabaseConnection.getConnection()) {
@@ -61,10 +64,10 @@ public class UserService extends UnicastRemoteObject implements IUserService {
                 stmt.setString(2, user.getPassword());
                 stmt.setInt(3, user.getRole());
                 
-                // Ejecutar la consulta de inserción
+                // Ejecutar la consulta
                 int affectedRows = stmt.executeUpdate();
                 
-                // Retornar 1 si se afectaron filas (es decir, inserción exitosa), 0 en caso contrario
+                
                 return affectedRows > 0 ? 1 : 0;
             }
         } catch (SQLException e) {
@@ -72,6 +75,53 @@ public class UserService extends UnicastRemoteObject implements IUserService {
             throw new RemoteException("Error al agregar el usuario: " + e.getMessage());
         }
     }
+
+    @Override
+    public int deleteUser(int id) throws RemoteException {
+        
+        String sql = "DELETE FROM Users WHERE id = ?";
+        
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            System.out.println("Conexión a la base de datos: " + conn);
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                
+                stmt.setInt(1, id);
+                
+                int affectedRows = stmt.executeUpdate();
+
+                return affectedRows > 0 ? 1 : 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RemoteException("Error al eliminar el usuario: " + e.getMessage());
+        }
+    }       
+
+    @Override
+    public List<User> getUsers() throws RemoteException {
+    List<User> userList = new ArrayList<>();
+    String sql = "SELECT id, name, role FROM Users";
     
+    try (Connection conn = DatabaseConnection.getConnection()) {
+        System.out.println("Conexión a la base de datos: " + conn);
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int userId = rs.getInt("id");
+                    String name = rs.getString("name");
+                    int role = rs.getInt("role");
+                    User user = new User(userId, name, role);
+                    userList.add(user);
+                }
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        throw new RemoteException("Error al obtener la lista de usuarios: " + e.getMessage());
+    }
+    return userList;
+}
+
+
 }
 
