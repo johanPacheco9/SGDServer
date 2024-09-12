@@ -30,12 +30,6 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
     public FIleService() throws RemoteException {
         super();
     }
-    
-
-
-
-
-
 
     @Override
     public byte[] getFile(String path) throws RemoteException {
@@ -52,7 +46,7 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
     }
 
     @Override
-    public String addFile(File file, String userName, int author_id) throws RemoteException {
+    public String addFile(File file, String userName, long author_id) throws RemoteException {
     // Definir el directorio del usuario
     String userDirectoryPath = FILE_DIRECTORY + userName + "/";
     java.io.File userDirectory = new java.io.File(userDirectoryPath);
@@ -81,7 +75,7 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
         stmt.setLong(2, file.getSize());
         stmt.setString(3, fileToSave.getAbsolutePath());
         //stmt.setBytes(4, file.getContent()); // Guardar el contenido del archivo
-        stmt.setInt(4, author_id);
+        stmt.setLong(4, author_id);
         
         int affectedRows = stmt.executeUpdate();
         if (affectedRows > 0) {
@@ -144,6 +138,7 @@ public class FIleService extends UnicastRemoteObject implements IFileService {
     @Override
     public List<File> getFiles(String userName) throws RemoteException {
     List<File> fileList = new ArrayList<>();
+    System.out.println("obtener archivos de:" + userName);
     // Usar LIKE para buscar dentro del path
     String sql = "SELECT name, path, size, author_id FROM Files WHERE path LIKE ?";
 

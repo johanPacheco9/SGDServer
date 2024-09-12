@@ -16,16 +16,16 @@ public class File implements Serializable {
     private String name;
     private long size;
     private String path;
-    //private String content;
+    private String tag;
     private byte[] content; 
     private int author_id;
 
     // Constructor
-    public File(String name, long size, String path, byte[] content, int author_id) {
+    public File(String name, long size, String path, String tag, int author_id) {
         this.name = name;
         this.size = size;
         this.path = path;
-        this.content = null;
+        this.tag = tag;
         this.author_id = author_id;
     }
     public File(String name)

@@ -16,7 +16,7 @@ import johanp.Domain.Models.File;
 public interface IFileService extends Remote{
     byte[] getFile(String path) throws RemoteException;
     List<File> getFiles(String userName) throws  RemoteException;
-    String addFile(File file, String userName,int author_id) throws RemoteException;
+    String addFile(File file, String userName,long author_id) throws RemoteException;
     String deleteFile(String fileName) throws RemoteException;
     boolean searchFile(String fileName) throws RemoteException;
 
